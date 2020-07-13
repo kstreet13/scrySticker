@@ -96,7 +96,7 @@ points(0,0, pch=16, col=1, cex=3)
 ##########################
 plot(c(-5,5),c(-6,5), col='white', asp=1)
 rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col =  darkblue)
-for(i in -5:5){
+coords <- lapply(-5:5, function(i){
     if(i %% 2 == 0){
         x <- seq(-5,5, by=2/sqrt(3))
     }else{
@@ -107,33 +107,54 @@ for(i in -5:5){
         x <- x[-which.max(x >= 0)]
     }
     y <- rep(i,length(x))
-    for(j in 1:length(x)){
-        circ <- getCircle(center=c(y[j],x[j]), radius=runif(1,.45,.55), bumps=15)
-        lines(circ, lwd=5, col = darkpurple)
-        polygon(circ, border=NA, col=alpha(lightblue, alpha = .8))
-        lines(circ, lwd=3, col=lightpurple)
-        #points(y,x, cex=2.5, col=darkpurple, pch=16)
-        circ2 <- getCircle(center=c(y[j],x[j])+rnorm(2,sd=.05), radius=runif(1,.17,.23), bumps=15)
-        lines(circ2, lwd=4, col=lightpurple)
-        polygon(circ2, border=NA, col=darkpurple)
-    }
+    data.frame(x=y,y=x)
+})
+coords <- do.call(rbind, coords)
+coords <- coords[sample(nrow(coords)),]
+y <- coords$x
+x <- coords$y
+for(j in 1:nrow(coords)){
+    circ <- getCircle(center=c(y[j],x[j]), radius=runif(1,.45,.55), bumps=15)
+    lines(circ, lwd=5, col = darkpurple)
+    polygon(circ, border=NA, col=alpha(lightblue, alpha = .8))
+    lines(circ, lwd=3, col=lightpurple)
+    #points(y,x, cex=2.5, col=darkpurple, pch=16)
+    circ2 <- getCircle(center=c(y[j],x[j])+rnorm(2,sd=.05), radius=runif(1,.17,.23), bumps=15)
+    lines(circ2, lwd=4, col=lightpurple)
+    polygon(circ2, border=NA, col=darkpurple)
+}
+x <- seq(-5,5, by=2/sqrt(3))
+eye.y <- x[which.max(x >= 0)]
+eye.x <- 0
+
+
+# spotlight eye
+points(eye.x, eye.y, col='white')
+col.seq <- colorby(1:50, colors = c('white',brewer.pal(5,'Set3')[2]))
+cex.seq <- seq(1,10, length.out = 50)
+alpha.seq <- seq(1,0, length.out = 50)
+for(i in 1:50){
+    points(eye.x, eye.y, col=alpha(col.seq[i], alpha=alpha.seq[i]), pch=1,
+           cex = cex.seq[i])
 }
 
-circ <- getCircle(center = c(0,eye.x), radius=.47)
+
+# cartoon eye
+circ <- getCircle(center = c(eye.x, eye.y), radius=.47)
 lines(circ, lwd=5, col=darkpurple)
 for(i in 1:8){
     angle <- c(135,105,75,45, -45,-75,-105,-135)[i]
-    x <- .66 * cos(pi * angle/180)
-    y <- eye.x + .66 * sin(pi * angle/180)
-    lines(c(0,x),c(eye.x,y), lwd=5, col=darkpurple)
-    lines(c(0,x),c(eye.x,y), lwd=3, col=lightpurple)
+    x <- eye.x + .66 * cos(pi * angle/180)
+    y <- eye.y + .66 * sin(pi * angle/180)
+    lines(c(eye.x,x),c(eye.y,y), lwd=5, col=darkpurple)
+    lines(c(eye.x,x),c(eye.y,y), lwd=3, col=lightpurple)
 }
 polygon(circ, border=NA, col='white')
 lines(circ, lwd=3, col=lightpurple)
-circ2 <- getCircle(center = c(0,eye.x), radius=.25)
+circ2 <- getCircle(center = c(eye.x,eye.y), radius=.25)
 lines(circ2, lwd=4, col=lightpurple)
 polygon(circ2, border=NA, col=darkpurple)
-points(0,eye.x, pch=16, col=1, cex=3)
+points(eye.x,eye.y, pch=16, col=1, cex=3)
 
 
 
@@ -149,7 +170,7 @@ coords <- lapply(-5:5, function(i){
     }else{
         x<- seq(-5+1/sqrt(3),5, by=2/sqrt(3))
     }
-    if(i==0){
+    if(i==1){
         eye.x <- x[which.max(x >= 0)]
         x <- x[-which.max(x >= 0)]
     }
@@ -171,31 +192,35 @@ for(j in 1:nrow(coords)){
     polygon(circ2, border=NA, col=darkpurple)
 }
 
+x <- seq(-5+1/sqrt(3),5, by=2/sqrt(3))
+eye.x <- x[which.max(x >= 0)]
+eye.y <- 1
 
-points(eye.y, eye.x, col='white')
+
+# spotlight eye
+points(eye.x, eye.y, col='white')
 col.seq <- colorby(1:50, colors = c('white',brewer.pal(5,'Set3')[2]))
 cex.seq <- seq(1,10, length.out = 50)
 alpha.seq <- seq(1,0, length.out = 50)
-
 for(i in 1:50){
-    points(eye.y, eye.x, col=alpha(col.seq[i], alpha=alpha.seq[i]), pch=1,
+    points(eye.x, eye.y, col=alpha(col.seq[i], alpha=alpha.seq[i]), pch=1,
            cex = cex.seq[i])
 }
 
 
-
-circ <- getCircle(center = c(0,eye.x), radius=.47)
+# cartoon eye
+circ <- getCircle(center = c(eye.x, eye.y), radius=.47)
 lines(circ, lwd=5, col=darkpurple)
 for(i in 1:8){
     angle <- c(135,105,75,45, -45,-75,-105,-135)[i]
-    x <- .66 * cos(pi * angle/180)
-    y <- eye.x + .66 * sin(pi * angle/180)
-    lines(c(0,x),c(eye.x,y), lwd=5, col=darkpurple)
-    lines(c(0,x),c(eye.x,y), lwd=3, col=lightpurple)
+    x <- eye.x + .66 * cos(pi * angle/180)
+    y <- eye.y + .66 * sin(pi * angle/180)
+    lines(c(eye.x,x),c(eye.y,y), lwd=5, col=darkpurple)
+    lines(c(eye.x,x),c(eye.y,y), lwd=3, col=lightpurple)
 }
 polygon(circ, border=NA, col='white')
 lines(circ, lwd=3, col=lightpurple)
-circ2 <- getCircle(center = c(0,eye.x), radius=.25)
+circ2 <- getCircle(center = c(eye.x,eye.y), radius=.25)
 lines(circ2, lwd=4, col=lightpurple)
 polygon(circ2, border=NA, col=darkpurple)
-points(0,eye.x, pch=16, col=1, cex=3)
+points(eye.x,eye.y, pch=16, col=1, cex=3)
