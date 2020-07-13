@@ -94,8 +94,9 @@ points(0,0, pch=16, col=1, cex=3)
 ##########################
 #### hex grid of cells ### (vertical)
 ##########################
-plot(c(-5,5),c(-6,5), col='white', asp=1)
-rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col =  darkblue)
+plot(c(-6,6),c(-6,6), col='transparent', asp=1, axes=FALSE, xlab='',ylab='')
+# par(mar=c(1,1,1,1))
+#rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col =  darkblue)
 coords <- lapply(-5:5, function(i){
     if(i %% 2 == 0){
         x <- seq(-5,5, by=2/sqrt(3))
@@ -129,7 +130,7 @@ eye.x <- 0
 
 
 # spotlight eye
-points(eye.x, eye.y, col='white')
+points(eye.x, eye.y, col='white', pch=16)
 col.seq <- colorby(1:50, colors = c('white',brewer.pal(5,'Set3')[2]))
 cex.seq <- seq(1,10, length.out = 50)
 alpha.seq <- seq(1,0, length.out = 50)
@@ -162,8 +163,8 @@ points(eye.x,eye.y, pch=16, col=1, cex=3)
 ##########################
 #### hex grid of cells ### (horizontal)
 ##########################
-plot(c(-5,5),c(-5,5), col='white', asp=1)
-rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col =  darkblue)
+plot(c(-6,6),c(-6,6), col='transparent', asp=1, axes=FALSE, xlab='',ylab='')
+#rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col =  darkblue)
 coords <- lapply(-5:5, function(i){
     if(i %% 2 == 0){
         x <- seq(-5,5, by=2/sqrt(3))
@@ -198,7 +199,7 @@ eye.y <- 1
 
 
 # spotlight eye
-points(eye.x, eye.y, col='white')
+points(eye.x, eye.y, col='white', pch=16)
 col.seq <- colorby(1:50, colors = c('white',brewer.pal(5,'Set3')[2]))
 cex.seq <- seq(1,10, length.out = 50)
 alpha.seq <- seq(1,0, length.out = 50)
