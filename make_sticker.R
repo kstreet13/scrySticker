@@ -109,7 +109,7 @@ ggsave(filename = 'scry.pdf', plot = sticker, width = 43.9, height = 50.8,
 sticker2 <- hexagon(size = 1.2, fill = "transparent", color='transparent')
 sticker2 <- sticker2 + geom_url('www.bioconductor.org', x = 1.02, y = .06,
                               color = 'white', family="Aller_Rg", size = 1.2)
-ggsave(filename = 'urlSticker.pdf', plot = sticker2, width = 43.9, height = 50.8,
+ggsave(filename = '~/Desktop/urlSticker.pdf', plot = sticker2, width = 43.9, height = 50.8,
        bg = "transparent", units = "mm", dpi = 1200)
 
 
